@@ -1,0 +1,22 @@
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.logo {
+  color: var(--logo-color);
+
+  font-size: 1.5rem;
+  font-family: var(--ff-heading);
+  font-weight: var(--fw-extra-bold);
+
+  text-transform: uppercase;
+
+  letter-spacing: 2px;
+  line-height: 100%;
+}
+
+.logo > span {
+  font-weight: var(--fw-normal);
+}

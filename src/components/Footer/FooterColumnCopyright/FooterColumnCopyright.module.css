@@ -1,0 +1,16 @@
+.FooterColumnCopyright {
+  color: var(--footer-title-text);
+
+  font-family: var(--ff-heading);
+}
+
+.FooterColumnCopyright h4 {
+  margin-top: 1rem;
+
+  font-weight: var(--fw-normal);
+}
+
+.FooterColumnCopyright span,
+.FooterColumnCopyright a {
+  color: var(--primary);
+}

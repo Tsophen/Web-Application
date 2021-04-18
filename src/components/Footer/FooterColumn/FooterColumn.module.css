@@ -1,0 +1,32 @@
+.footerColumn {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-self: center;
+
+  font-family: var(--ff-heading);
+}
+
+.footerColumn .title {
+  color: var(--footer-title-text);
+
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.footerColumn li {
+  margin-top: 0.5rem;
+}
+
+.footerColumn a {
+  color: var(--not-focused);
+  transition: color 0.25s, padding 0.25s;
+}
+
+.footerColumn a:hover {
+  color: var(--primary);
+  padding-left: 0.5rem;
+}

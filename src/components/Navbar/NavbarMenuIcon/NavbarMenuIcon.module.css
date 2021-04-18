@@ -1,0 +1,68 @@
+.navbarMenuIconContainer {
+  display: none;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+}
+
+.navbarMenuIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.navbarMenuIcon div {
+  width: 1.6rem;
+  height: 3px;
+
+  position: relative;
+
+  border-radius: 5px;
+  background-color: var(--primary);
+
+  transition: 0.5s;
+}
+
+.navbarMenuIcon div:before,
+.navbarMenuIcon div:after {
+  width: inherit;
+  height: inherit;
+
+  content: "";
+  position: absolute;
+
+  border-radius: 5px;
+  background-color: var(--primary);
+  transition: transform 0.5s;
+}
+
+.navbarMenuIcon div:before {
+  transform: translateY(-7px);
+}
+
+.navbarMenuIcon div:after {
+  transform: translateY(7px);
+}
+
+.navbarMenuIcon.active div {
+  background-color: transparent;
+}
+
+.navbarMenuIcon.active div:before {
+  transform: translateY(0) rotate(-135deg);
+}
+
+.navbarMenuIcon.active div:after {
+  transform: translateY(0) rotate(135deg);
+}
+
+@media (max-width: 1000px) {
+  .navbarMenuIconContainer {
+    display: flex;
+  }
+}

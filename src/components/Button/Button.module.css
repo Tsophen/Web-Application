@@ -1,0 +1,61 @@
+.btn {
+  display: inline-block;
+
+  font-family: var(--ff-button);
+  font-weight: var(--fw-bold);
+  font-size: 0.8rem;
+
+  text-transform: uppercase;
+  text-align: center;
+
+  border: 2px solid var(--primary);
+
+  transition: background-color 0.25s, border 0.25s, color 0.25s;
+
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn.btnOutline:hover,
+.btn.btnSolid {
+  background-color: var(--primary);
+  color: var(--primary-overlay-text);
+}
+
+.btn.btnSolid:hover {
+  background-color: var(--primary-dark);
+  border: 2px solid var(--primary-dark);
+}
+
+.btn.btnOutline {
+  background-color: transparent;
+  color: var(--primary);
+}
+
+.btn.disabled,
+.btn.disabled:focus,
+.btn.disabled:hover {
+  background-color: gray;
+  border: 2px solid gray;
+
+  cursor: wait;
+}
+
+.btnRounded {
+  border-radius: 2rem;
+}
+
+.btnSmall {
+  padding: 0.6rem 1.4rem;
+}
+
+.btnMedium {
+  padding: 0.7rem 1.8rem;
+}
+
+.btnLarge {
+  padding: 1rem 2.8rem;
+}

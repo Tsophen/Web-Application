@@ -1,0 +1,143 @@
+.login {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.loginWrapper {
+  width: 80%;
+  height: auto;
+
+  margin: 3rem auto;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.loginWrapper .form {
+  flex: 1;
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.loginWrapper .form form {
+  display: flex;
+  flex-direction: column;
+
+  width: 60%;
+  align-self: flex-start;
+}
+
+.loginWrapper .form button {
+  padding: 0.75rem 0;
+  margin-top: 1rem;
+}
+
+.loginWrapper .form .options {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.loginWrapper .form .options .recover {
+  align-self: flex-start;
+  flex: 1;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  margin-top: 0.5rem;
+}
+
+.loginWrapper .form .options .recover a {
+  font-size: 0.8rem;
+
+  color: var(--primary);
+}
+
+.loginWrapper .info {
+  flex: 1;
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.loginWrapper .info h1 {
+  color: var(--section-title-text);
+
+  font-size: 3em;
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-bold);
+
+  text-align: right;
+}
+
+.loginWrapper .info .social {
+  margin-top: 2rem;
+}
+
+.loginWrapper .info .social h3 {
+  color: var(--section-subtitle-text);
+
+  font-size: 1.3em;
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-normal);
+}
+
+.loginWrapper .info .social img {
+  width: 2rem;
+  height: auto;
+
+  margin: 0.5rem 0;
+}
+
+.loginWrapper .info .social a:not(:first-of-type) {
+  margin-left: 0.5rem;
+}
+
+@media (max-width: 1000px) {
+  .loginWrapper {
+    flex-direction: column-reverse;
+  }
+
+  .loginWrapper .form {
+    margin-top: 2rem;
+    width: 100%;
+  }
+
+  .loginWrapper .form form {
+    width: 80%;
+
+    align-self: center;
+  }
+
+  .loginWrapper .info h1 {
+    text-align: center;
+  }
+
+  .loginWrapper .info .social {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .loginWrapper .form form {
+    width: 100%;
+  }
+
+  .loginWrapper .info h1 {
+    font-size: 2em;
+  }
+}

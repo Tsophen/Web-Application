@@ -1,0 +1,34 @@
+.navbarMenuLink {
+  color: var(--not-focused);
+  padding: 0 0.8rem;
+
+  font-size: 1rem;
+  font-family: var(--ff-heading);
+  font-weight: var(--fw-normal);
+
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  transition: color 0.25s;
+}
+
+.navbarMenuLink:hover {
+  color: var(--primary);
+}
+
+.navbarMenuLink.active {
+  color: var(--primary);
+  font-weight: var(--fw-bold);
+}
+
+@media (max-width: 1000px) {
+  .navbarMenuLink {
+    width: 100%;
+    padding: 0.8rem 2rem;
+  }
+
+  .navbarMenuLink:hover {
+    transform: scale(1);
+    background-color: var(--navbar-dropdown-hover);
+  }
+}

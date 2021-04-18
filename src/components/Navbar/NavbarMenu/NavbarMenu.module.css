@@ -1,0 +1,33 @@
+.navbarMenuContainer {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  
+  flex: 5;
+}
+
+@media (max-width: 1000px) {
+  .navbarMenuContainer {
+    width: 80%;
+    height: auto;
+    top: var(--navbar-height);
+
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: absolute;
+
+    z-index: -1;
+
+    border-radius: 0 0 1rem 1rem;
+    background-color: var(--navbar-dropdown-background);
+
+    transform: translateY(-125%);
+    transition: transform 0.5s;
+  }
+
+  .navbarMenuContainer.active {
+    transform: translateY(0%);
+  }
+}

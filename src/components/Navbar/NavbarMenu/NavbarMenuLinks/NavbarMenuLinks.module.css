@@ -1,0 +1,25 @@
+.navbarMenuLinks {
+  height: 100%;
+
+  flex: 5;
+}
+
+.navbarMenuLinks > ul {
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 1000px) {
+  .navbar-menu-links {
+    width: 100%;
+
+    margin: 0 auto 1rem auto;
+  }
+
+  .navbarMenuLinks > ul {
+    flex-direction: column;
+  }
+}
