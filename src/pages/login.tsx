@@ -10,7 +10,6 @@ import EventButton from "../components/Button/EventButton";
 import IconInput from "../components/IconInput/IconInput";
 
 import { __brand__ } from "../config/global";
-import { ErrorMessage } from "../config/Interfaces";
 import execute, { Endpoints } from "../config/requester";
 
 import styles from "../styles/LogIn.module.css";
@@ -23,7 +22,7 @@ const LogIn: React.FC<props> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [error, setError] = useState<ErrorMessage | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
   const [success, setSuccess] = useState<string | undefined>(undefined);
   const [disableButton, setDisableButton] = useState(false);
 
@@ -32,7 +31,7 @@ const LogIn: React.FC<props> = () => {
 
   useEffect(() => {
     if(location.query.error)
-      setError({ message: location.query.error, focus: [] as string[] });
+      setError(location.query.error.toString());
   }, []);
 
   const login = async (event: React.FormEvent) => {
@@ -93,10 +92,10 @@ const LogIn: React.FC<props> = () => {
           <div className={ styles.form }>
             <form id="login-form">
 
-              <IconInput startSvgSource="icons/mail.svg" focus={ error && error.focus.includes("email") } onChange={ handleEmailChange } inputType="email" inputId="email" inputPlaceholder="Email Address" />
-              <IconInput startSvgSource="icons/lock.svg" focus={ error && error.focus.includes("password") } onChange={ handlePasswordChange } inputType="password" inputId="password" inputPlaceholder="Master Password" />
+              <IconInput startSvgSource="icons/mail.svg" onChange={ handleEmailChange } inputType="email" inputId="email" inputPlaceholder="Email Address" />
+              <IconInput startSvgSource="icons/lock.svg" onChange={ handlePasswordChange } inputType="password" inputId="password" inputPlaceholder="Master Password" />
 
-              { error && <p className="error">{ error.message }</p> }
+              { error && <p className="error">{ error }</p> }
               { success && <p className="success">{ success }</p> }
 
               <EventButton onClick={ login } buttonStyle={ Styles.SOLID } buttonType={ Types.ROUNDED } buttonSize={ Sizes.SMALL } disabled={ disableButton }>Log In</EventButton>
@@ -113,9 +112,10 @@ const LogIn: React.FC<props> = () => {
             <h1>Retrieve your encrypted data!</h1>
             <div className={ styles.social }>
               <h3>Follow us on</h3>
-              <a href="https://facebook.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1365px-Facebook_f_logo_%282019%29.svg.png" alt="facebook-logo" /></a>
-              <a href="https://instagram.com"><img src="https://i.pinimg.com/originals/43/85/a5/4385a5479214954fa9fab6f1a778623f.png" alt="instagram-logo" /></a>
-              <a href="https://twitter.com"><img src="https://upload.wikimedia.org/wikipedia/he/thumb/a/a3/Twitter_bird_logo.svg/1200px-Twitter_bird_logo.svg.png" alt="twitter-logo"/></a>
+              <div className={ styles.icons }>
+                <a href="https://www.instagram.com/tsophenapp/"><img src="/icons/instagram.svg" alt="instagram-logo"/></a>
+                <a href="https://twitter.com/TsophenApp"><img src="/icons/twitter.svg" alt="twitter-logo"/></a>
+              </div>
             </div>
           </div>
           

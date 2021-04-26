@@ -9,7 +9,6 @@ import EventButton from "../components/Button/EventButton";
 import IconInput from "../components/IconInput/IconInput";
 
 import { __brand__ } from "../config/global";
-import { ErrorMessage } from "../config/Interfaces";
 import execute, { Endpoints } from "../config/requester";
 
 import styles from "../styles/SignUp.module.css";
@@ -26,7 +25,7 @@ const SignUp: React.FC<props> = () => {
   const [confirm, setConfirm] = useState("");
   const [reminder, setReminder] = useState("");
 
-  const [error, setError] = useState<ErrorMessage | undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
   const [success, setSuccess] = useState<string | undefined>(undefined);
   const [disableButton, setDisableButton] = useState(false);
 
@@ -39,7 +38,7 @@ const SignUp: React.FC<props> = () => {
 
   useEffect(() => {
     if(location.query.error)
-      setError({ message: location.query.error, focus: [] as string[] });
+      setError(location.query.error.toString());
   }, []);
 
   const signup = async (event: React.FormEvent) => {
@@ -108,22 +107,23 @@ const SignUp: React.FC<props> = () => {
             <h1>It's time to protect yourself.</h1>
             <div className={ styles.social }>
               <h3>Follow us on</h3>
-              <a href="https://facebook.com"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1365px-Facebook_f_logo_%282019%29.svg.png" alt="facebook-logo" /></a>
-              <a href="https://instagram.com"><img src="https://i.pinimg.com/originals/43/85/a5/4385a5479214954fa9fab6f1a778623f.png" alt="instagram-logo" /></a>
-              <a href="https://twitter.com"><img src="https://upload.wikimedia.org/wikipedia/he/thumb/a/a3/Twitter_bird_logo.svg/1200px-Twitter_bird_logo.svg.png" alt="twitter-logo"/></a>
+              <div className={ styles.icons }>
+                <a href="https://www.instagram.com/tsophenapp/"><img src="/icons/instagram.svg" alt="instagram-logo"/></a>
+                <a href="https://twitter.com/TsophenApp"><img src="/icons/twitter.svg" alt="twitter-logo"/></a>
+              </div>
             </div>
           </div>
 
           <div className={ styles.form }>
             <form id="signup-form">
 
-              <IconInput startSvgSource="icons/mail.svg" onChange={ handleEmailChange } focus={ error && error.focus.includes("email") } inputType="email" inputId="email" inputPlaceholder="Email Address" />
-              <IconInput startSvgSource="icons/user.svg" onChange={ handleNameChange } focus={ error && error.focus.includes("name") } inputType="text" inputId="name" inputPlaceholder="Full Name" />
-              <IconInput startSvgSource="icons/lock.svg" endSvgSource="icons/eye.svg" endSvgOnClick={ togglePassword } onChange={ handlePasswordChange } focus={ error && error.focus.includes("password") } inputType={ passwordHidden ? "password" : "text" } inputId="password" inputPlaceholder="Master Password" />
-              <IconInput startSvgSource="icons/check-square.svg" onChange={ handleConfirmChange } focus={ error && error.focus.includes("confirm") } inputType="password" inputId="confirm" inputPlaceholder="Confirm Password" />
-              <IconInput startSvgSource="icons/edit-3.svg" onChange={ handleReminderChange } focus={ error && error.focus.includes("reminder") } inputType="text" inputId="reminder" inputPlaceholder="Password Reminder" />
+              <IconInput startSvgSource="icons/mail.svg" onChange={ handleEmailChange } inputType="email" inputId="email" inputPlaceholder="Email Address" />
+              <IconInput startSvgSource="icons/user.svg" onChange={ handleNameChange } inputType="text" inputId="name" inputPlaceholder="Full Name" />
+              <IconInput startSvgSource="icons/lock.svg" endSvgSource="icons/eye.svg" endSvgOnClick={ togglePassword } onChange={ handlePasswordChange } inputType={ passwordHidden ? "password" : "text" } inputId="password" inputPlaceholder="Master Password" />
+              <IconInput startSvgSource="icons/check-square.svg" onChange={ handleConfirmChange } inputType="password" inputId="confirm" inputPlaceholder="Confirm Password" />
+              <IconInput startSvgSource="icons/edit-3.svg" onChange={ handleReminderChange } inputType="text" inputId="reminder" inputPlaceholder="Password Reminder" />
 
-              { error && <p className="error">{ error.message }</p> }
+              { error && <p className="error">{ error }</p> }
               { success && <p className="success">{ success }</p> }
 
               <EventButton onClick={ signup } buttonStyle={ Styles.SOLID } buttonType={ Types.ROUNDED } buttonSize={ Sizes.SMALL } disabled={ disableButton }>Sign Up</EventButton>

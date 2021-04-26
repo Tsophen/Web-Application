@@ -3,7 +3,7 @@ import crypto from "crypto";
 const encryptionAlgorithm = "aes-256-ctr";
 
 export enum VaultItemType {
-  PASSWORD,
+  VAULT,
   NOTE
 }
 

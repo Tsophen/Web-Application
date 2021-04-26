@@ -95,7 +95,12 @@
   font-weight: var(--fw-normal);
 }
 
-.loginWrapper .info .social img {
+.loginWrapper .info .social .icons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loginWrapper .info .social .icons img {
   width: 2rem;
   height: auto;
 

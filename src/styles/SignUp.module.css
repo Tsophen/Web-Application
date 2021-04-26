@@ -50,7 +50,12 @@
   font-weight: var(--fw-normal);
 }
 
-.signupWrapper .info .social img {
+.signupWrapper .info .social .icons {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.signupWrapper .info .social .icons img {
   width: 2rem;
   height: auto;
 
