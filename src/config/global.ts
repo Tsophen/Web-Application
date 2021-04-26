@@ -1,3 +1,9 @@
 const __brand__ = "Tsophen";
 
-export { __brand__ };
+const socialLinks = {
+  instagram: "https://instagram.com/TsophenApp",
+  twitter: "https://twitter.com/TsophenApp",
+  linkedIn: "#"
+}
+
+export { __brand__, socialLinks };

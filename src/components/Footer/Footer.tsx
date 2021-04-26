@@ -6,6 +6,7 @@ import FooterColumnMain from "./FooterColumnMain/FooterColumnMain";
 import FooterColumn from "./FooterColumn/FooterColumn";
 
 import styles from "./Footer.module.css";
+import { socialLinks } from "../../config/global";
 
 interface props {}
 
@@ -29,18 +30,18 @@ const Footer: React.FC<props> = () => {
               <li><Link href="/support"><a className={ (path === "/support" ? styles.active : "") }>Support</a></Link></li>
             </ul>
           </FooterColumn>
-          <FooterColumn title="Social">
-            <ul>
-              <li><Link href="#"><a>Instagram</a></Link></li>
-              <li><Link href="#"><a>Twitter</a></Link></li>
-              <li><Link href="#"><a>LinkedIn</a></Link></li>
-            </ul>
-          </FooterColumn>
           <FooterColumn title="Legal">
             <ul>
               <li><Link href="#"><a>Terms of Service</a></Link></li>
               <li><Link href="#"><a>Privacy Policy</a></Link></li>
               <li><Link href="#"><a>Cookie Preferences</a></Link></li>
+            </ul>
+          </FooterColumn>
+          <FooterColumn title="Social">
+            <ul>
+              <li><a href={socialLinks.instagram}>Instagram</a></li>
+              <li><a href={socialLinks.twitter}>Twitter</a></li>
+              <li><a href={socialLinks.linkedIn}>LinkedIn</a></li>
             </ul>
           </FooterColumn>
           <FooterColumn title="How We Work">

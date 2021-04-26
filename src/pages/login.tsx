@@ -9,7 +9,7 @@ import { Sizes, Styles, Types } from "../components/Button/Button";
 import EventButton from "../components/Button/EventButton";
 import IconInput from "../components/IconInput/IconInput";
 
-import { __brand__ } from "../config/global";
+import { socialLinks, __brand__ } from "../config/global";
 import execute, { Endpoints } from "../config/requester";
 
 import styles from "../styles/LogIn.module.css";
@@ -113,8 +113,8 @@ const LogIn: React.FC<props> = () => {
             <div className={ styles.social }>
               <h3>Follow us on</h3>
               <div className={ styles.icons }>
-                <a href="https://www.instagram.com/tsophenapp/"><img src="/icons/instagram.svg" alt="instagram-logo"/></a>
-                <a href="https://twitter.com/TsophenApp"><img src="/icons/twitter.svg" alt="twitter-logo"/></a>
+                <a href={socialLinks.instagram}><img src="/icons/instagram.svg" alt="instagram-logo"/></a>
+                <a href={socialLinks.twitter}><img src="/icons/twitter.svg" alt="twitter-logo"/></a>
               </div>
             </div>
           </div>

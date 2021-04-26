@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { pbkdf2 } from "crypto";
 
@@ -8,7 +9,7 @@ import { Sizes, Styles, Types } from "../components/Button/Button";
 import EventButton from "../components/Button/EventButton";
 import IconInput from "../components/IconInput/IconInput";
 
-import { __brand__ } from "../config/global";
+import { socialLinks, __brand__ } from "../config/global";
 import execute, { Endpoints } from "../config/requester";
 
 import styles from "../styles/SignUp.module.css";
@@ -108,8 +109,8 @@ const SignUp: React.FC<props> = () => {
             <div className={ styles.social }>
               <h3>Follow us on</h3>
               <div className={ styles.icons }>
-                <a href="https://www.instagram.com/tsophenapp/"><img src="/icons/instagram.svg" alt="instagram-logo"/></a>
-                <a href="https://twitter.com/TsophenApp"><img src="/icons/twitter.svg" alt="twitter-logo"/></a>
+                <a href={socialLinks.instagram}><img src="/icons/instagram.svg" alt="instagram-logo"/></a>
+                <a href={socialLinks.twitter}><img src="/icons/twitter.svg" alt="twitter-logo"/></a>
               </div>
             </div>
           </div>
@@ -127,7 +128,7 @@ const SignUp: React.FC<props> = () => {
               { success && <p className="success">{ success }</p> }
 
               <EventButton onClick={ signup } buttonStyle={ Styles.SOLID } buttonType={ Types.ROUNDED } buttonSize={ Sizes.SMALL } disabled={ disableButton }>Sign Up</EventButton>
-              <p>By completing this form, you agree to the <span><a href="/terms">Terms</a></span> and <span><a href="privacy_policy">Privacy Policy</a></span>.</p>
+              <p>By completing this form, you agree to the <span><Link href="/terms"><a>Terms</a></Link></span> and <span><Link href="/privacy_policy"><a>Privacy Policy</a></Link></span>.</p>
             </form>
           </div>
           
