@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import Link from "next/link";
 import Head from "next/head";
 
 import Navbar from "./Navbar/Navbar";
@@ -10,7 +9,7 @@ type props = {
   title?: string
 }
 
-const Layout = ({ children, title = "Brand Name" }: props) => (
+const Layout = ({ children, title = "Tsophen" }: props) => (
   <>
     <Head>
       <title>{title}</title>

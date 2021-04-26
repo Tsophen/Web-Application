@@ -1,7 +1,7 @@
 import styles from "./FooterColumn.module.css";
 
 interface props {
-  children: any,
+  children: any
   title: string
 }
 

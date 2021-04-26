@@ -35,12 +35,12 @@ const Sizes: SizeObject = {
 }
 
 interface props {
-  children?: any,
-  onClick?: (event: React.FormEvent) => void,
-  href?: string,
-  buttonStyle?: Style,
-  buttonType?: Type,
-  buttonSize?: Size,
+  children?: any
+  onClick?: (event: React.FormEvent) => void
+  href?: string
+  buttonStyle?: Style
+  buttonType?: Type
+  buttonSize?: Size
   disabled?: boolean
 }
 

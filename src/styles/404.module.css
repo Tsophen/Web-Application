@@ -1,0 +1,35 @@
+.notFound {
+  width: 50%;
+  margin: 3rem auto;
+
+  display: flex;
+
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.notFound .text {
+  display: flex;
+  flex: 1;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.notFound .text h1 {
+  color: #000;
+
+  font-size: 3em;
+}
+
+.notFound .text h2 {
+  color: rgb(73, 73, 73);
+
+  margin-top: 1.5rem;
+
+  font-size: 1.5em;
+}

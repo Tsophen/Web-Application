@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-
-import Layout from "../components/Layout";
 
 import { pbkdf2 } from "crypto";
 
-import { Endpoints } from "../config/global";
-import execute from "../config/requester";
-
+import Layout from "../components/Layout";
+import { Sizes, Styles, Types } from "../components/Button/Button";
 import EventButton from "../components/Button/EventButton";
 import IconInput from "../components/IconInput/IconInput";
 
-import { Sizes, Styles, Types } from "../components/Button/Button";
+import { __brand__ } from "../config/global";
+import { ErrorMessage } from "../config/Interfaces";
+import execute, { Endpoints } from "../config/requester";
 
 import styles from "../styles/SignUp.module.css";
 
@@ -27,8 +26,8 @@ const SignUp: React.FC<props> = () => {
   const [confirm, setConfirm] = useState("");
   const [reminder, setReminder] = useState("");
 
-  const [error, setError] = useState({ message: "", focus: [] as string[] });
-  const [success, setSuccess] = useState("");
+  const [error, setError] = useState<ErrorMessage | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
   const [disableButton, setDisableButton] = useState(false);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value);
@@ -38,9 +37,16 @@ const SignUp: React.FC<props> = () => {
   const handleConfirmChange = (event: React.ChangeEvent<HTMLInputElement>) => setConfirm(event.target.value);
   const handleReminderChange = (event: React.ChangeEvent<HTMLInputElement>) => setReminder(event.target.value);
 
+  useEffect(() => {
+    if(location.query.error)
+      setError({ message: location.query.error, focus: [] as string[] });
+  }, []);
 
   const signup = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    setError(undefined);
+    setSuccess(undefined);
     
     if(email.length === 0 || name.length === 0 || password.length === 0 || confirm.length === 0)
       return setError({ message: "Please fill all required fields", focus: ["email", "name", "password", "confirm"] });
@@ -55,13 +61,13 @@ const SignUp: React.FC<props> = () => {
     setSuccess("");
 
     /** Hashing the password with 100,000 iterations to get the encryptionKey, then another signle iteration to get the vaultKey */
-    pbkdf2(email + password, email, 100000, 64, "sha512", async (err, derivedKey) => {
+    pbkdf2(email + password, email, 100000, 16, "sha512", async (err, derivedKey) => {
       if(err)
         throw err;
 
       const encryptionKey = derivedKey.toString("hex");
 
-      pbkdf2(encryptionKey, password, 1, 64, "sha512", async (err, derivedKey) => {
+      pbkdf2(encryptionKey, password, 1, 16, "sha512", async (err, derivedKey) => {
         if(err)
           throw err;
 
@@ -75,24 +81,26 @@ const SignUp: React.FC<props> = () => {
         });
 
         /** Executing the request, enabling the button and if we had success redirecting the user to the login page */
-        const response = await execute(Endpoints.users.create.link, Endpoints.users.create.method, undefined, body);
+        const response = await execute(Endpoints.users.create.link, Endpoints.users.create.method, { body: body, mode: "cors" });
+
         setDisableButton(false);
 
         if(!response)
           return setError({ message: "Could not communicate with the server!", focus: [] });
 
         const data = await response.json();
+
         if(!response.ok)
           return setError({ message: data.message, focus: [] });
         
         setSuccess(data.message + ". Redirecting...");
-        setTimeout(() => location.push("/login"), 2000);
+        location.push("/login");
       });
     });
   }
 
   return (
-    <Layout title="Sign Up | Brand Name">
+    <Layout title={ `Sign Up - ${__brand__}` }>
       <section className={ styles.signup }>
         <div className={ styles.signupWrapper }>
 
@@ -109,14 +117,14 @@ const SignUp: React.FC<props> = () => {
           <div className={ styles.form }>
             <form id="signup-form">
 
-              <IconInput startSvgSource="icons/mail.svg" onChange={ handleEmailChange } focus={ error.focus.includes("email") } inputType="email" inputId="email" inputPlaceholder="Email Address" />
-              <IconInput startSvgSource="icons/user.svg" onChange={ handleNameChange } focus={ error.focus.includes("name") } inputType="text" inputId="name" inputPlaceholder="Full Name" />
-              <IconInput startSvgSource="icons/lock.svg" endSvgSource="icons/eye.svg" endSvgOnClick={ togglePassword } onChange={ handlePasswordChange } focus={ error.focus.includes("password") } inputType={ passwordHidden ? "password" : "text" } inputId="password" inputPlaceholder="Master Password" />
-              <IconInput startSvgSource="icons/check-square.svg" onChange={ handleConfirmChange } focus={ error.focus.includes("confirm") } inputType="password" inputId="confirm" inputPlaceholder="Confirm Password" />
-              <IconInput startSvgSource="icons/edit-3.svg" onChange={ handleReminderChange } focus={ error.focus.includes("reminder") } inputType="text" inputId="reminder" inputPlaceholder="Password Reminder" />
+              <IconInput startSvgSource="icons/mail.svg" onChange={ handleEmailChange } focus={ error && error.focus.includes("email") } inputType="email" inputId="email" inputPlaceholder="Email Address" />
+              <IconInput startSvgSource="icons/user.svg" onChange={ handleNameChange } focus={ error && error.focus.includes("name") } inputType="text" inputId="name" inputPlaceholder="Full Name" />
+              <IconInput startSvgSource="icons/lock.svg" endSvgSource="icons/eye.svg" endSvgOnClick={ togglePassword } onChange={ handlePasswordChange } focus={ error && error.focus.includes("password") } inputType={ passwordHidden ? "password" : "text" } inputId="password" inputPlaceholder="Master Password" />
+              <IconInput startSvgSource="icons/check-square.svg" onChange={ handleConfirmChange } focus={ error && error.focus.includes("confirm") } inputType="password" inputId="confirm" inputPlaceholder="Confirm Password" />
+              <IconInput startSvgSource="icons/edit-3.svg" onChange={ handleReminderChange } focus={ error && error.focus.includes("reminder") } inputType="text" inputId="reminder" inputPlaceholder="Password Reminder" />
 
-              <p className={`error ${error.message.length === 0 ? "hidden" : ""}`}>{ error.message }</p>
-              <p className={`success ${success.length === 0 ? "hidden" : ""}`}>{ success }</p>
+              { error && <p className="error">{ error.message }</p> }
+              { success && <p className="success">{ success }</p> }
 
               <EventButton onClick={ signup } buttonStyle={ Styles.SOLID } buttonType={ Types.ROUNDED } buttonSize={ Sizes.SMALL } disabled={ disableButton }>Sign Up</EventButton>
               <p>By completing this form, you agree to the <span><a href="/terms">Terms</a></span> and <span><a href="privacy_policy">Privacy Policy</a></span>.</p>

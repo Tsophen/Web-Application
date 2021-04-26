@@ -32,7 +32,7 @@
 .signupWrapper .info h1 {
   color: var(--section-title-text);
 
-  font-size: 3em;
+  font-size: 2em;
   font-family: var(--ff-primary);
   font-weight: var(--fw-bold);
 
@@ -46,7 +46,6 @@
 .signupWrapper .info .social h3 {
   color: var(--section-subtitle-text);
 
-  font-size: 1.3em;
   font-family: var(--ff-primary);
   font-weight: var(--fw-normal);
 }
@@ -125,7 +124,11 @@
     width: 100%;
   }
 
+  .signupWrapper .info {
+    width: 80%;
+  }
+
   .signupWrapper .info h1 {
-    font-size: 2em;
+    font-size: 1.5em;
   }
 }

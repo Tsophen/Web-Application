@@ -3,7 +3,7 @@ import React from "react"
 import styles from "./NavbarMenuIcon.module.css";
 
 interface props {
-  toggled: boolean,
+  toggled: boolean
   toggleMenu: () => void
 }
 

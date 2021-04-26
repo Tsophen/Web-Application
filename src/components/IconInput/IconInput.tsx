@@ -3,14 +3,14 @@ import { ReactSVG } from "react-svg";
 import styles from "./IconInput.module.css";
 
 interface props {
-  startSvgSource: string,
-  endSvgSource?: string,
-  startSvgOnClick?: () => void,
-  endSvgOnClick?: () => void,
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  focus?: boolean,
-  inputType: string,
-  inputId: string,
+  startSvgSource: string
+  endSvgSource?: string
+  startSvgOnClick?: () => void
+  endSvgOnClick?: () => void
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  focus?: boolean
+  inputType: string
+  inputId: string
   inputPlaceholder: string
 }
 

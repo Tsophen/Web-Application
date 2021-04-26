@@ -10,7 +10,7 @@ const Logo: React.FC<props> = ({ color }) => {
   return (
     <Link href="/">
       <a className={styles.logo_container}>
-        <h1 className={styles.logo} style={color ? { color: color } : {}}>Start<span>Up</span></h1>
+        <h1 className={styles.logo} style={color ? { color: color } : {}}>TSOPHEN</h1>
       </a>
     </Link>
   )
