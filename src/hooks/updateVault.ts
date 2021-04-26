@@ -3,7 +3,7 @@ import { AccessToken } from "../components/SessionComponent";
 import { DecryptedVault, encrypt, EncryptedVault } from "../config/vault";
 import execute, { Endpoints } from "../config/requester";
 
-import IHookResponse from "./HookResponse";
+import IHookResponse from "./IHookResponse";
 import checkAccessToken from "./checkAccessToken";
 
 interface UpdateVaultResponse extends IHookResponse {

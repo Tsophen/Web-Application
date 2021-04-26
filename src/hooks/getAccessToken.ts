@@ -2,7 +2,7 @@ import { AccessToken } from "../components/SessionComponent";
 
 import execute, { Endpoints } from "../config/requester";
 
-import IHookResponse from "./HookResponse";
+import IHookResponse from "./IHookResponse";
 
 interface GetAccessTokenResponse extends IHookResponse {}
 

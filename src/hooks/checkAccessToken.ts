@@ -1,6 +1,6 @@
 import { AccessToken } from "../components/SessionComponent";
 
-import IHookResponse from "./HookResponse";
+import IHookResponse from "./IHookResponse";
 import getAccessToken from "./getAccessToken";
 
 interface CheckAccessTokenResponse extends IHookResponse {}
