@@ -49,16 +49,16 @@ const SignUp: React.FC<props> = () => {
     setSuccess(undefined);
     
     if(email.length === 0 || name.length === 0 || password.length === 0 || confirm.length === 0)
-      return setError({ message: "Please fill all required fields", focus: ["email", "name", "password", "confirm"] });
+      return setError("Please fill all required fields");
     else if(password !== confirm)
-      return setError({ message: "Passwords do not match", focus: ["password", "confirm"] });
+      return setError("Passwords do not match");
     else if(password === reminder)
-      return setError({ message: "Your reminder cannot be equal to your password", focus: ["reminder"] });
+      return setError("Your reminder cannot be equal to your password");
 
     /** Disabling the register button, resetting the error & success fields */
     setDisableButton(true);
-    setError({ message: "", focus: [] });
-    setSuccess("");
+    setError(undefined);
+    setSuccess(undefined);
 
     /** Hashing the password with 100,000 iterations to get the encryptionKey, then another signle iteration to get the vaultKey */
     pbkdf2(email + password, email, 100000, 16, "sha512", async (err, derivedKey) => {
@@ -86,12 +86,12 @@ const SignUp: React.FC<props> = () => {
         setDisableButton(false);
 
         if(!response)
-          return setError({ message: "Could not communicate with the server!", focus: [] });
+          return setError("Could not communicate with the server!");
 
         const data = await response.json();
 
         if(!response.ok)
-          return setError({ message: data.message, focus: [] });
+          return setError(data.message);
         
         setSuccess(data.message + ". Redirecting...");
         location.push("/login");

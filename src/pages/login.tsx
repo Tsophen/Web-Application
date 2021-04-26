@@ -41,12 +41,12 @@ const LogIn: React.FC<props> = () => {
     setSuccess(undefined);
 
     if(email.length === 0 || password.length === 0)
-      return setError({ message: "Please fill all required fields", focus: ["email", "password"] });
+      return setError("Please fill all required fields");
 
     /** Disabling the login button, resetting the error & success fields */
     setDisableButton(true);
-    setError({ message: "", focus: [] });
-    setSuccess("");
+    setError(undefined);
+    setSuccess(undefined);
 
     /** Hashing the password with 100,000 iterations to get the encryptionKey, then another signle iteration to get the vaultKey */
     pbkdf2(email + password, email, 100000, 16, "sha512", async (err, derivedKey) => {
@@ -72,11 +72,11 @@ const LogIn: React.FC<props> = () => {
         setDisableButton(false);
 
         if(!response)
-          return setError({ message: "Could not communicate with the server!", focus: [] });
+          return setError("Could not communicate with the server!");
 
         const data = await response.json();
         if(!response.ok)
-          return setError({ message: data.message, focus: [] });
+          return setError(data.message);
 
         setSuccess(data.message + ". Redirecting...");
         location.push("/dashboard");
