@@ -26,9 +26,9 @@ export default class Dashboard extends SessionComponent<DashboardProps, Dashboar
     try {
       await super.fetch();
 
-      if(!this.state.accessToken || !this.state.encryptionKey) return super.onFail();
-
       this.setState({ ...this.state, status: "loading" });
+
+      if(!this.state.accessToken || !this.state.encryptionKey) return super.onFail();
 
       const loadVaultResponse = await loadVault(this.state.accessToken);
       const encryptedVault = loadVaultResponse.encryptedVault;
@@ -36,7 +36,7 @@ export default class Dashboard extends SessionComponent<DashboardProps, Dashboar
 
       this.setState({ ...this.state, status: "done", accessToken: loadVaultResponse.accessToken, encryptedVault, decryptedVault });
     } catch(exception) {
-      return super.onFail();
+      // return super.onFail();
     }
   }
 

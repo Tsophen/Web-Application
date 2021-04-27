@@ -20,7 +20,7 @@ const getAccessToken = (): Promise<GetAccessTokenResponse> => {
       let data = await response.json();
       if(!data || !data.success) return reject();
 
-      const accessToken: AccessToken = { accessToken: data.data.accessToken, expires: Number(data.data.expires ? data.data.expires : Date.now()) };
+      const accessToken: AccessToken = data.data.accessToken;
 
       return resolve({ accessToken });
     } catch(exception) {
