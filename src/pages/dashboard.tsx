@@ -1,98 +1,109 @@
-import SessionComponent, { SessionComponentProps, SessionComponentState } from "../components/SessionComponent";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
 import Layout from "../components/Layout";
 
-import { decrypt, DecryptedVault, EncryptedVault, VaultItemType } from "../config/vault";
 import { __brand__ } from "../config/global";
 
-import loadVault from "../hooks/loadVault";
-import updateVault from "../hooks/updateVault";
+import { PageStatus, HookStatus } from "../config/status";
+import useSession, { onSessionFail, AccessToken } from "../hooks/useSession";
+import { decrypt, DecryptedVault, EncryptedVault, VaultItemType } from "../hooks/useVault";
 
-interface DashboardProps extends SessionComponentProps {}
+import loadVault from "../fetches/loadVault";
+import updateVault from "../fetches/updateVault";
 
-interface DashboardState extends SessionComponentState {
-  encryptedVault: EncryptedVault | undefined
-  decryptedVault: DecryptedVault | undefined
-}
+interface props {}
 
-export default class Dashboard extends SessionComponent<DashboardProps, DashboardState> {
+const Dashboard: React.FC<props> = () => {
+  const location = useRouter();
 
-  constructor(props: DashboardProps) {
-    super(props);
+  const {sessionStatus, encryptionKey, accessToken: sessionAccessToken} = useSession();
 
-    this.state = { ...super.state, encryptedVault: undefined, decryptedVault: undefined };
+  const [pageStatus, setPageStatus] = useState<PageStatus>(PageStatus.LOADING);
+  const [accessToken, setAccessToken] = useState<AccessToken | undefined>(undefined);
+
+  const [encryptedVault, setEncryptedVault] = useState<EncryptedVault | undefined>(undefined);
+  const [decryptedVault, setDecryptedVault] = useState<DecryptedVault | undefined>(undefined);
+
+  if(sessionStatus === HookStatus.FAILED) {
+    onSessionFail(location);
+    return <></>;
   }
 
-  async componentDidMount() {
+  useEffect(() => {
+    if(sessionStatus === HookStatus.DONE) {
+      setAccessToken(sessionAccessToken);
+  
+      const fetch = async () => {
+        try {
+          if(!sessionAccessToken || !encryptionKey) return onSessionFail(location);
+  
+          const loadVaultResponse = await loadVault(sessionAccessToken);
+          const encryptedVault = loadVaultResponse.encryptedVault;
+          const decryptedVault = decrypt(encryptedVault, encryptionKey);
+  
+          setAccessToken(loadVaultResponse.accessToken);
+          setEncryptedVault(encryptedVault);
+          setDecryptedVault(decryptedVault);
+
+          setPageStatus(PageStatus.DONE);
+        } catch(exception) {
+          setPageStatus(PageStatus.FAILED);
+
+          return onSessionFail(location);
+        }
+      }
+  
+      fetch();
+    }
+  }, [sessionStatus]);
+
+  const insertItemToVault = async (item: object, type: VaultItemType) => {
     try {
-      await super.fetch();
-
-      this.setState({ ...this.state, status: "loading" });
-
-      if(!this.state.accessToken || !this.state.encryptionKey) return super.onFail();
-
-      const loadVaultResponse = await loadVault(this.state.accessToken);
-      const encryptedVault = loadVaultResponse.encryptedVault;
-      const decryptedVault = decrypt(encryptedVault, this.state.encryptionKey);
-
-      this.setState({ ...this.state, status: "done", accessToken: loadVaultResponse.accessToken, encryptedVault, decryptedVault });
+      setPageStatus(PageStatus.SAVING);
+  
+      if(!encryptionKey || !accessToken || !decryptedVault) return onSessionFail(location);
+        
+      const newDecryptedVault: DecryptedVault = decryptedVault;
+      switch(type) {
+        case VaultItemType.VAULT:
+          newDecryptedVault.vault.push(item);
+          break;
+      }
+    
+      const updateVaultResponse = await updateVault(encryptionKey, newDecryptedVault, accessToken);
+      const encryptedVault = updateVaultResponse.encryptedVault;
+  
+      setEncryptedVault(encryptedVault);
+      setAccessToken(updateVaultResponse.accessToken);
+      setPageStatus(PageStatus.DONE);
     } catch(exception) {
-      // return super.onFail();
+      setPageStatus(PageStatus.FAILED);
+        
+      return onSessionFail(location);
     }
   }
 
-  private async insertItemToVault(item: object, type: VaultItemType): Promise<EncryptedVault> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.setState({ ...this.state, status: "saving" });
-  
-        if(!this.state.encryptionKey || !this.state.accessToken || !this.state.decryptedVault) return super.onFail();
-        
-        const newDecryptedVault: DecryptedVault = this.state.decryptedVault;
-        switch(type) {
-          case VaultItemType.VAULT:
-            newDecryptedVault.vault.push(item);
-            break;
-        }
-    
-        const updateVaultResponse = await updateVault(this.state.encryptionKey, newDecryptedVault, this.state.accessToken);
-        const encryptedVault = updateVaultResponse.encryptedVault;
-  
-        this.setState({ ...this.state, status: "done", encryptedVault, accessToken: updateVaultResponse.accessToken });
-
-        return resolve(encryptedVault);
-      } catch(exception) {
-        this.setState({ ...this.state, status: "failed" });
-        
-        return reject();
-      }
-    });
-  }
-
-  public render() {
-    return (
-
-      // TODO:
-      // if(accessToken):
-      //   Layout (navbar-type: search [otherwise: menu])
-      //   Buttons (Sing-out [otherwise: Log In, Sign Up])
-      <Layout title={ `Dashboard - ${__brand__}` }>
-        <section>
-          {
-            (this.state.status === "loading") ?
-              <h1>Loading...</h1>
+  return (
+    <Layout title={ `Dashboard - ${__brand__}` }>
+      <section>
+        {
+          (pageStatus === PageStatus.LOADING || sessionStatus === HookStatus.LOADING) ?
+            <h1>Loading...</h1>
+          :
+            (pageStatus === PageStatus.SAVING) ?
+              <h1>Saving...</h1>
             :
-              (this.state.status === "saving") ?
-                <h1>Saving...</h1>
-              :
-                <>
-                  <button style={ { width: "100px", height: "100px", background: "red" } } onClick={ () => { this.state.decryptedVault && this.insertItemToVault({ name: "facebook" }, VaultItemType.VAULT); } }></button>
-                  <button style={ { width: "100px", height: "100px", background: "green" } } onClick={ () => console.log(this.state.encryptedVault) }></button>
-                  <button style={ { width: "100px", height: "100px", background: "yellow" } } onClick={ () => console.log(this.state.decryptedVault) }></button>
-                  <button style={ { width: "100px", height: "100px", background: "blue" } } onClick={ () => console.log(this.state.accessToken) }></button>
-                </>
-          }
-        </section>
-      </Layout>
-    )
-  }
+              <>
+                <button style={ { width: "100px", height: "100px", background: "red" } } onClick={ () => { decryptedVault && insertItemToVault({ name: "facebook" }, VaultItemType.VAULT); } }></button>
+                <button style={ { width: "100px", height: "100px", background: "green" } } onClick={ () => console.log(encryptedVault) }></button>
+                <button style={ { width: "100px", height: "100px", background: "yellow" } } onClick={ () => console.log(decryptedVault) }></button>
+                <button style={ { width: "100px", height: "100px", background: "blue" } } onClick={ () => console.log(accessToken) }></button>
+              </>
+        }
+      </section>
+    </Layout>
+  )
 }
+
+export default Dashboard;

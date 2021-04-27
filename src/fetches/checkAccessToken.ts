@@ -1,9 +1,9 @@
-import { AccessToken } from "../components/SessionComponent";
-
-import IHookResponse from "./IHookResponse";
+import IFetchResponse from "./IFetchResponse";
 import getAccessToken from "./getAccessToken";
 
-interface CheckAccessTokenResponse extends IHookResponse {}
+import { AccessToken } from "../hooks/useSession";
+
+interface CheckAccessTokenResponse extends IFetchResponse {}
 
 /**
  * Checks an Access Token and if it has expired, generates a new one

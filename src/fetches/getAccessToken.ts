@@ -1,10 +1,10 @@
-import { AccessToken } from "../components/SessionComponent";
-
 import execute, { Endpoints } from "../config/requester";
 
-import IHookResponse from "./IHookResponse";
+import IFetchResponse from "./IFetchResponse";
 
-interface GetAccessTokenResponse extends IHookResponse {}
+import { AccessToken } from "../hooks/useSession";
+
+interface GetAccessTokenResponse extends IFetchResponse {}
 
 /**
  * Generate an Access Token using the refresh token cookie

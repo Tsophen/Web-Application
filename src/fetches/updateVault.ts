@@ -1,12 +1,12 @@
-import { AccessToken } from "../components/SessionComponent";
-
-import { DecryptedVault, encrypt, EncryptedVault } from "../config/vault";
 import execute, { Endpoints } from "../config/requester";
 
-import IHookResponse from "./IHookResponse";
+import IFetchResponse from "./IFetchResponse";
 import checkAccessToken from "./checkAccessToken";
 
-interface UpdateVaultResponse extends IHookResponse {
+import { AccessToken } from "../hooks/useSession";
+import { DecryptedVault, encrypt, EncryptedVault } from "../hooks/useVault";
+
+interface UpdateVaultResponse extends IFetchResponse {
   encryptedVault: EncryptedVault;
 }
 

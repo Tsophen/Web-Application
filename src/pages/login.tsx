@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -12,6 +12,8 @@ import IconInput from "../components/IconInput/IconInput";
 import { socialLinks, __brand__ } from "../config/global";
 import execute, { Endpoints } from "../config/requester";
 
+import useQueryError from "../hooks/useQueryError";
+
 import styles from "../styles/LogIn.module.css";
 
 interface props {}
@@ -22,17 +24,12 @@ const LogIn: React.FC<props> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [error, setError] = useState<string | undefined>(undefined);
+  const {error, setError} = useQueryError();
   const [success, setSuccess] = useState<string | undefined>(undefined);
   const [disableButton, setDisableButton] = useState(false);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value);
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value);
-
-  useEffect(() => {
-    if(location.query.error)
-      setError(location.query.error.toString());
-  }, []);
 
   const login = async (event: React.FormEvent) => {
     event.preventDefault();

@@ -1,0 +1,4 @@
+// TODO:
+// if(accessToken):
+//   Layout (navbar-type: search [otherwise: menu])
+//   Buttons (Sing-out [otherwise: Log In, Sign Up])

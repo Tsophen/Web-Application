@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -11,6 +11,8 @@ import IconInput from "../components/IconInput/IconInput";
 
 import { socialLinks, __brand__ } from "../config/global";
 import execute, { Endpoints } from "../config/requester";
+
+import useQueryError from "../hooks/useQueryError";
 
 import styles from "../styles/SignUp.module.css";
 
@@ -26,7 +28,7 @@ const SignUp: React.FC<props> = () => {
   const [confirm, setConfirm] = useState("");
   const [reminder, setReminder] = useState("");
 
-  const [error, setError] = useState<string | undefined>(undefined);
+  const {error, setError} = useQueryError();
   const [success, setSuccess] = useState<string | undefined>(undefined);
   const [disableButton, setDisableButton] = useState(false);
 
@@ -36,11 +38,6 @@ const SignUp: React.FC<props> = () => {
   const togglePassword = () => setPasswordHidden(!passwordHidden);
   const handleConfirmChange = (event: React.ChangeEvent<HTMLInputElement>) => setConfirm(event.target.value);
   const handleReminderChange = (event: React.ChangeEvent<HTMLInputElement>) => setReminder(event.target.value);
-
-  useEffect(() => {
-    if(location.query.error)
-      setError(location.query.error.toString());
-  }, []);
 
   const signup = async (event: React.FormEvent) => {
     event.preventDefault();

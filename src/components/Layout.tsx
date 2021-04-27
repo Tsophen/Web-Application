@@ -9,7 +9,7 @@ type props = {
   title?: string
 }
 
-const Layout = ({ children, title = "Tsophen" }: props) => (
+const Layout: React.FC<props> = ({ children, title = "Tsophen" }) => (
   <>
     <Head>
       <title>{title}</title>

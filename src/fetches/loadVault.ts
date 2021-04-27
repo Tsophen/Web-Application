@@ -1,12 +1,12 @@
-import { AccessToken } from "../components/SessionComponent";
-
-import { EncryptedVault } from "../config/vault";
 import execute, { Endpoints } from "../config/requester";
 
-import IHookResponse from "./IHookResponse";
+import IFetchResponse from "./IFetchResponse";
 import checkAccessToken from "./checkAccessToken";
 
-interface LoadVaultResponse extends IHookResponse {
+import { AccessToken } from "../hooks/useSession";
+import { EncryptedVault } from "../hooks/useVault";
+
+interface LoadVaultResponse extends IFetchResponse {
   encryptedVault: EncryptedVault
 }
 
@@ -23,11 +23,11 @@ const loadVault = (accessToken: AccessToken): Promise<LoadVaultResponse> => {
     try {
       const newAccessToken = (await checkAccessToken(accessToken)).accessToken;
       if(!newAccessToken) return reject();
-      
+
       const headers = { "content-type": "application/json", "X-Token": `Bearer ${newAccessToken.accessToken}` };
       const response = await execute(Endpoints.users.vault.load.link, Endpoints.users.vault.load.method, { headers });
       if(!response || !response.ok) return reject();
-      console.log("3");
+
       const data = await response.json();
       if(!data || !data.success) return reject();
 
