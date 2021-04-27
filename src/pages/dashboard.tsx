@@ -49,7 +49,7 @@ export default class Dashboard extends SessionComponent<DashboardProps, Dashboar
         
         const newDecryptedVault: DecryptedVault = this.state.decryptedVault;
         switch(type) {
-          case VaultItemType.PASSWORD:
+          case VaultItemType.VAULT:
             newDecryptedVault.vault.push(item);
             break;
         }

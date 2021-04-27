@@ -15,7 +15,7 @@ interface UpdateVaultResponse extends IHookResponse {
  * If the Access Token is not valid anymore, it generates a new one
  * 
  * @param encryptionKey    Key to use to encrypt the vault
- * @param decryptedVault   Decrypted Vault to encrypt and then save0
+ * @param decryptedVault   Decrypted Vault to encrypt and then save
  * @param accessToken      Access Token to use in the request
  * @param setAccessToken   A method to update the Access Token if the previous one was not valid anymore
  * @returns                A Promise object resolved with the encrypted vault
